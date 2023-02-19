@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Fetch issue and label information') {
             steps {
@@ -19,16 +19,16 @@ pipeline {
         }
     }
 
-    // Define the conditions for the pipeline to run
-    options {
-        skipDefaultCheckout true
-    }
     environment {
-        CHANGE_ID = "${env.CHANGE_ID}"
-        CHANGE_TARGET = "${env.CHANGE_TARGET}"
+        // Replace "my-label" with the name of the label you want to trigger the pipeline on
+        MY_LABEL = "my-label"
     }
+
     when {
-        expression { env.CHANGE_ID && env.CHANGE_TARGET }
+        allOf {
+            expression { env.CHANGE_ID && env.CHANGE_TARGET }
+            expression { env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase() }
+        }
     }
 }
 
