@@ -9,20 +9,28 @@ pipeline {
     stages {
         stage('Fetch issue and label information') {
             steps {
-                sh 'echo "Fetching issue and label information..."'
+                script {
+                    def issueNumber = env.CHANGE_ID
+                    def labelName = env.CHANGE_TARGET
+                    echo "Issue number: ${issueNumber}"
+                    echo "Label name: ${labelName}"
+                }
+            }
+            when {
+                expression { false }
             }
         }
         stage('Run build steps') {
             steps {
-                // Insert build steps here
+                script {
+                    if (env.CHANGE_ID && env.CHANGE_TARGET && env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase()) {
+                        // Insert build steps here
+                    } else {
+                        echo "Skipping build because the label '${env.MY_LABEL}' was not applied to the issue."
+                        currentBuild.result = "SUCCESS"
+                    }
+                }
             }
-        }
-    }
-
-    when {
-        allOf {
-            expression { env.CHANGE_ID && env.CHANGE_TARGET }
-            expression { env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase() }
         }
     }
 }
