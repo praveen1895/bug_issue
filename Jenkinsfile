@@ -11,17 +11,18 @@ pipeline {
             steps {
                 sh 'echo "Fetching issue and label information..."'
             }
-            when {
-                allOf {
-                    expression { env.CHANGE_ID && env.CHANGE_TARGET }
-                    expression { env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase() }
-                }
-            }
         }
         stage('Run build steps') {
             steps {
                 // Insert build steps here
             }
+        }
+    }
+
+    when {
+        allOf {
+            expression { env.CHANGE_ID && env.CHANGE_TARGET }
+            expression { env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase() }
         }
     }
 }
