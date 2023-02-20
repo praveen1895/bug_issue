@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         GIT_REPO = 'https://github.com/praveen1895/jen.git'
-        GIT_CREDENTIALS_ID = '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'
+        GIT_CREDENTIALS_ID = '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'
         LABEL_NAME = 'bug1'
         LABEL_COLOR = 'ff0000'
     }
