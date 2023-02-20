@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Replace "my-label" with the name of the label you want to trigger the pipeline on
-        MY_LABEL = "my-label"
+        MY_LABEL = "bug1"
     }
 
     stages {
@@ -23,10 +23,15 @@ pipeline {
         stage('Run build steps') {
             steps {
                 script {
-                    if (env.CHANGE_ID && env.CHANGE_TARGET && env.CHANGE_TARGET.toLowerCase() == env.MY_LABEL.toLowerCase()) {
-                        // Insert build steps here
+                    if (env.CHANGE_ID || env.CHANGE_TARGET) {
+                        if (env.CHANGE_TARGET?.toLowerCase() == env.MY_LABEL?.toLowerCase()) {
+                            // Insert build steps here
+                        } else {
+                            echo "Skipping build because the label '${env.MY_LABEL}' was not applied to the issue."
+                            currentBuild.result = "SUCCESS"
+                        }
                     } else {
-                        echo "Skipping build because the label '${env.MY_LABEL}' was not applied to the issue."
+                        echo "Skipping build because no issue or label was detected."
                         currentBuild.result = "SUCCESS"
                     }
                 }
