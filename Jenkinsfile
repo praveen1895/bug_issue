@@ -9,12 +9,7 @@ pipeline {
     stages {
         stage('Fetch issue and label information') {
             steps {
-                script {
-                    def issueNumber = env.CHANGE_ID
-                    def labelName = env.CHANGE_TARGET
-                    echo "Issue number: ${issueNumber}"
-                    echo "Label name: ${labelName}"
-                }
+                sh 'echo "Fetching issue and label information..."'
             }
             when {
                 allOf {
