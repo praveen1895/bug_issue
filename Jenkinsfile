@@ -40,7 +40,6 @@ pipeline {
                     ]
                     def headers = [
                         "Content-Type": "application/json"
-                        "X-Github-Event": "label"
                     ]
                     def response = httpRequest url: webhook_url, contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: JsonOutput.toJson(payload), customHeaders: headers
                     echo "Webhook triggered with response code: ${response.status}"
