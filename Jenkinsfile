@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Replace "my-label" with the name of the label you want to trigger the pipeline on
-        MY_LABEL = "my-label"
+        MY_LABEL = "bug1"
     }
 
     stages {
